@@ -7,11 +7,22 @@ import TabButton from "./Components/TabButton.jsx";
 import { EXAMPLES } from "./data.js";
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState("components");
+  const [selectedTopic, setSelectedTopic] = useState();
 
   function handleSelect(selectedButton) {
     setSelectedTopic(selectedButton);
     console.log(tabContent);
+  }
+
+  let tabContent = <p>please select a topic</p>;
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tabContent">
+        <h3>{EXAMPLES[selectedTopic].title}</h3>
+        <p>{EXAMPLES[selectedTopic].description}</p>
+        <pre>{EXAMPLES[selectedTopic].code}</pre>
+      </div>
+    );
   }
   return (
     <div>
@@ -34,18 +45,32 @@ function App() {
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton onSelect={() => handleSelect("components")}>
+            <TabButton
+              isSelected={selectedTopic === "components"}
+              onSelect={() => handleSelect("components")}
+            >
               components
             </TabButton>
-            <TabButton onSelect={() => handleSelect("jsx")}>jsx</TabButton>
-            <TabButton onSelect={() => handleSelect("props")}>props</TabButton>
-            <TabButton onSelect={() => handleSelect("state")}>state</TabButton>
+            <TabButton
+              isSelected={selectedTopic === "jsx"}
+              onSelect={() => handleSelect("jsx")}
+            >
+              jsx
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === "props"}
+              onSelect={() => handleSelect("props")}
+            >
+              props
+            </TabButton>
+            <TabButton
+              isSelected={selectedTopic === "state"}
+              onSelect={() => handleSelect("state")}
+            >
+              state
+            </TabButton>
           </menu>
-          <div id="tabContent">
-            <h3>{EXAMPLES[selectedTopic].title}</h3>
-            <p>{EXAMPLES[selectedTopic].description}</p>
-            <pre>{EXAMPLES[selectedTopic].code}</pre>
-          </div>
+          {tabContent}
         </section>
       </main>
     </div>
